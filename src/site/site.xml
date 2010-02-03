@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ jDocBook, processing of DocBook sources as a Maven plugin
+  ~
+  ~ Copyright (c) 2008, Red Hat Middleware LLC or third-party contributors as
+  ~ indicated by the @author tags or express copyright attribution
+  ~ statements applied by the authors.  All third-party contributions are
+  ~ distributed under license by Red Hat Middleware LLC.
+  ~
+  ~ This copyrighted material is made available to anyone wishing to use, modify,
+  ~ copy, or redistribute it subject to the terms and conditions of the GNU
+  ~ Lesser General Public License, as published by the Free Software Foundation.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
+  ~ for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with this distribution; if not, write to:
+  ~ Free Software Foundation, Inc.
+  ~ 51 Franklin Street, Fifth Floor
+  ~ Boston, MA  02110-1301  USA
+  ~
+  -->
+
+<project name="jDocBook Plugin">
+
+    <body>
+        <links>
+            <item name="DocBook" href="http://docbook.sourceforge.net/"/>
+            <item name="JBoss" href="http://jboss.org/" />
+            <item name="Maven" href="http://maven.apache.org/"/>
+        </links>
+
+        <menu name="Overview">
+            <item name="Introduction" href="index.html"/>
+            <item name="Goals" href="plugin-info.html"/>
+            <item name="Usage" href="usage.html"/>
+            <item name="Style" href="style.html"/>
+            <item name="Internationalization" href="i18n.html"/>
+        </menu>
+
+        <menu name="Examples">
+            <item name="Complete jdocbook-style Example" href="examples/jdocbook-style.html"/>
+            <item name="Project-local Style" href="examples/project-local-style.html"/>
+            <item name="Arbitrary Style" href="examples/arbitrary-styles.html"/>
+            <item name="Custom XSLT" href="examples/custom-xslt.html"/>
+            <item name="Using a Specific DocBook Version" href="examples/docbook-version.html"/>
+        </menu>
+
+        ${reports}
+    </body>
+
+</project>

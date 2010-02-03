@@ -1,0 +1,39 @@
+ ------
+ Internationalization
+ ------
+ Steve Ebersole
+ ------
+ 30 October 2007
+ ------
+
+~~ Copyright © 2007  Red Hat Middleware, LLC. All rights reserved.
+~~
+~~ This copyrighted material is made available to anyone wishing to use, modify,
+~~ copy, or redistribute it subject to the terms and conditions of the GNU
+~~ Lesser General Public License, v. 2.1. This program is distributed in the
+~~ hope that it will be useful, but WITHOUT A WARRANTY; without even the implied
+~~ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+~~ Lesser General Public License for more details. You should have received a
+~~ copy of the GNU Lesser General Public License, v.2.1 along with this
+~~ distribution; if not, write to the Free Software Foundation, Inc.,
+~~ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+~~
+~~ Red Hat Author(s): Steve Ebersole
+
+Internationalization
+
+    In support of internationalization (i18n) and locationization (l10n) efforts, the <jDocBook Plugin> allows you
+    to develop and manage language-specific versions of your documentation.  Currently this support is achieved via
+    the GNU {{{http://www.gnu.org/software/gettext/}gettext}} package, which aims to help developers and translators by
+    providing a series of tools to make localizing content easier.  In this iteration, the <jDocBook Plugin> relies on
+    the host system having the following executables available on their system/path and makes use of system
+    RuntimeEnvironment calls to execute them:
+
+        [[1]] msginit and msgmerge - these come from the <gettext> package itself (see link above)
+
+        [[2]] xml2pot and po2xml - which come from the KDE poxml package (
+
+        []
+
+    It is expected that there will be a java port of these tools at some point, and that the <jDocBook Plugin> would
+    then be updated to use those ports.  However, such an effort is large and not expected anytime soon.
