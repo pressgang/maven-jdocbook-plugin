@@ -69,7 +69,7 @@
     </licenses>
 
     <scm>
-        <connection>scm:svn:https://svn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</connection>
+        <connection>scm:svn:http://anonsvn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</connection>
         <developerConnection>scm:svn:https://svn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</developerConnection>
         <url>http://anonsvn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</url>
     </scm>
