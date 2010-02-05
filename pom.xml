@@ -34,7 +34,7 @@
     <groupId>org.jboss.maven.plugins</groupId>
     <artifactId>maven-jdocbook-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>2.2.2-SNAPSHOT</version>
+    <version>2.2.1-SNAPSHOT</version>
 
     <name>jDocBook Maven Plugin</name>
     <description>This plugin adds support for DocBook handling to Maven.</description>
@@ -75,8 +75,11 @@
     </scm>
     <distributionManagement>
         <repository>
-            <id>jboss-release</id>
-            <url>dav:https://svn.jboss.org/repos/repository.jboss.org/maven2</url>
+            <!-- Copy the dist to the local checkout of the JBoss maven2 repo ${maven.repository.root} -->
+            <!-- It is anticipated that ${maven.repository.root} be set in user's settings.xml -->
+            <!-- todo : replace this with direct svn access once the svnkit providers are available -->
+            <id>repository.jboss.org</id>
+            <url>file://${maven.repository.root}</url>
         </repository>
         <snapshotRepository>
             <id>jboss-snapshots</id>
