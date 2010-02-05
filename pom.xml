@@ -73,7 +73,17 @@
         <developerConnection>scm:svn:https://svn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</developerConnection>
         <url>http://anonsvn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</url>
     </scm>
-
+    <distributionManagement>
+        <repository>
+            <id>jboss-release</id>
+            <url>dav:https://svn.jboss.org/repos/repository.jboss.org/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>jboss-snapshots</id>
+            <name>JBoss Snapshot Repository</name>
+            <url>dav:https://snapshots.jboss.org/maven2</url>
+        </snapshotRepository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>
