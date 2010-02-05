@@ -26,6 +26,8 @@ package org.jboss.jdocbook.i18n.gettext;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
@@ -36,8 +38,8 @@ import org.jboss.jdocbook.i18n.I18nEnvironment;
 import org.jboss.jdocbook.i18n.I18nSource;
 import org.jboss.jdocbook.i18n.MasterTranslationDescriptor;
 import org.jboss.jdocbook.i18n.TranslationBuilder;
+import org.jboss.jdocbook.i18n.gettext.TranslatedItemFactory.TranslatedItem;
 import org.jboss.jdocbook.util.FileUtils;
-import org.jboss.jdocbook.util.I18nUtils;
 import org.jboss.jdocbook.util.XIncludeHelper;
 
 /**
@@ -68,40 +70,85 @@ public class TranslationBuilderImpl implements TranslationBuilder {
 			);
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void buildTranslation(File masterFile, File poDirectory, File targetDirectory)
-			throws JDocBookProcessException {
-		getLog().trace( "starting translation [" + masterFile + "]" );
-		if ( !masterFile.exists() ) {
-			getLog().info( "skipping translation; master file did not exist : {}", masterFile );
+	public void buildTranslation(File masterFile, File basePoDirectory,
+			File targetDirectory) throws JDocBookProcessException {
+		getLog().trace("starting translation [" + masterFile + "]");
+		if (!masterFile.exists()) {
+			getLog().info(
+					"skipping translation; master file did not exist : {}",
+					masterFile);
 			return;
 		}
-
-		final String poFileName = I18nUtils.determinePoFileName( masterFile );
-		final File poFile = new File( poDirectory, poFileName );
-		if ( !poFile.exists() ) {
-			throw new JDocBookProcessException( "Unable to locate PO file for [" + masterFile.getName() + "] in [" + poDirectory.getName() + "]" );
+		Set<File> files = new HashSet<File>();
+		findAllInclusionFiles(masterFile, files);
+		files.add(masterFile);
+		Set<TranslatedItem> translatedItems = TranslatedItemFactory
+				.createTranslatedItem(masterFile, basePoDirectory,
+						targetDirectory, files);
+		for (TranslatedItem item : translatedItems) {
+			if (item.getSourceFile().getName().endsWith("xml")) {
+				generateTranslatedXML(item.getSourceFile(), item.getPoFile(), item
+						.getTargetFile());
+			} else {
+				copyNonXMLFileToWorkDir(item);
+			}
 		}
-		final File translatedFile = new File( targetDirectory, masterFile.getName() );
-		generateTranslatedXML( masterFile, poFile, translatedFile );
+	}
 
-		// Note : recursion below accounts for inclusions within inclusions
-		final File sourceBasedir = masterFile.getParentFile();
-		for ( File inclusion : XIncludeHelper.locateInclusions( masterFile ) ) {
-			getLog().trace( "starting translation of inclusion [" + inclusion + "]" );
-			final String relativity = FileUtils.determineRelativity( inclusion, sourceBasedir );
-			getLog().trace( "determined relativity : " + relativity );
-			final File relativeTranslationDir = ( relativity == null )
-					? poDirectory
-					: new File( poDirectory, relativity );
-			final File relativeWorkDir = ( relativity == null )
-					? targetDirectory
-					: new File( targetDirectory, relativity );
-			buildTranslation( inclusion, relativeTranslationDir, relativeWorkDir );
+	private void copyNonXMLFileToWorkDir(TranslatedItem item) {
+
+		try {
+			FileUtils.copyFileToDirectoryIfModified(item.getSourceFile(), item
+					.getTargetFile().getParentFile());
+		} catch (IOException e) {
+			throw new JDocBookProcessException("unable to copy file [ "
+					+ item.getSourceFile() + " ] to directory [ "
+					+ item.getTargetFile().getParentFile() + " ]");
 		}
+
+	}
+
+	/**
+	 * Find all files referenced by master file, include indirectly inclusion.
+	 * <p>
+	 * {@link XIncludeHelper#locateInclusions(File)} may return files that do not exist or are not normal XML files.
+	 * <p>
+	 * For example:
+	 * <p>
+	 * 1. If a XML file has the following DOCTYPE, (this is asked by <tt>publican</tt>), then <em>Hibernate_Annotations_Reference_Guide.ent</em>
+	 * will be returned by {@link XIncludeHelper#locateInclusions(File)}
+	 * <blockquote><pre>
+	 * &lt;!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [ 
+	 * &lt;!ENTITY % BOOK_ENTITIES SYSTEM "Hibernate_Annotations_Reference_Guide.ent"&gt;
+	 * %BOOK_ENTITIES;
+	 * ]&gt;
+	 * </pre></blockquote>
+	 * <p>
+	 * 2. Publican can use the following style XInclude:
+	 * <blockquote><pre>
+	 * &lt;xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="Common_Content/Legal_Notice.xml"&gt;
+	 * </pre></blockquote>
+	 * This Legal_Notice.xml file actually do not exist in the current source directory, but in the predefined publican brand
+	 * <p>
+	 */
+	private void findAllInclusionFiles(File masterFile, Set<File> files) {
+		if(masterFile==null || !masterFile.exists() || !masterFile.getName().endsWith("xml")){
+			return;
+		}
+		Set<File> inclusions = XIncludeHelper.locateInclusions(masterFile);
+		if (inclusions == null || inclusions.isEmpty())
+			return;
+		for (File inclusion : inclusions) {
+			if (!inclusion.exists()) {
+				getLog().info(
+						"skipping translation; inclusion file did not exist : [ "+
+						inclusion+" ]");
+				continue;
+			}
+			files.add(inclusion);
+			findAllInclusionFiles(inclusion, files);
+		}
+
 	}
 
 	private void generateTranslatedXML(File masterFile, File poFile, File translatedFile) {
