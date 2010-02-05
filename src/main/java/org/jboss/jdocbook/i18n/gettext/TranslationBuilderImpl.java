@@ -141,7 +141,7 @@ public class TranslationBuilderImpl implements TranslationBuilder {
 				executor.execute( commandLine );
 			}
 			catch ( IOException ioe ) {
-				throw new JDocBookProcessException( "uanble to execute po2xml : " + ioe.getMessage() );
+				throw new JDocBookProcessException( "unable to execute po2xml : " + ioe.getMessage() );
 			}
 			finally {
 				try {
