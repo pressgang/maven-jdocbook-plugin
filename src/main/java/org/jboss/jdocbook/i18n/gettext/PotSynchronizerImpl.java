@@ -26,6 +26,8 @@ package org.jboss.jdocbook.i18n.gettext;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.jboss.jdocbook.JDocBookProcessException;
 import org.jboss.jdocbook.Log;
@@ -65,23 +67,21 @@ public class PotSynchronizerImpl implements PotSynchronizer {
 		);
 	}
 
-	private void synchronizePot(File masterFile, File potDirectory) throws JDocBookProcessException {
-		if ( !masterFile.exists() ) {
-			getLog().info( "skipping POT updates; master file did not exist : {0}", masterFile );
-			return;
-		}
-		final File sourceBasedir = masterFile.getParentFile();
-		final String potFileName = I18nUtils.determinePotFileName( masterFile );
-		final File potFile = new File( potDirectory, potFileName );
-		updatePortableObjectTemplate( masterFile, potFile );
-
-		// Note : recursion below accounts for inclusions within inclusions
-		for ( File inclusion : XIncludeHelper.locateInclusions( masterFile ) ) {
-			final String relativity = FileUtils.determineRelativity( inclusion, sourceBasedir );
-			final File relativeTemplateDir = ( relativity == null )
-					? potDirectory
-					: new File( potDirectory, relativity );
-			synchronizePot( inclusion, relativeTemplateDir );
+	private void synchronizePot(File masterFile, File potDirectory)
+			throws JDocBookProcessException {
+		Set<File> files = new HashSet<File>();
+		XIncludeHelper.findAllInclusionFiles(masterFile, files);
+		files.add(masterFile);
+		File baseDir = masterFile.getParentFile();
+		for (File file : files) {
+			String relativity = FileUtils.determineRelativity(file, baseDir);
+			File relativeTranslationDir = (relativity == null) ? potDirectory
+					: new File(potDirectory, relativity);
+			if (FileUtils.isXMLFile(file)) {
+				String poFileName = I18nUtils.determinePotFileName(file);
+				File potFile = new File(relativeTranslationDir, poFileName);
+				updatePortableObjectTemplate(file, potFile);
+			}
 		}
 	}
 

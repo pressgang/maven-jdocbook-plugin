@@ -229,7 +229,16 @@ public class FileUtils extends org.codehaus.plexus.util.FileUtils {
 		}
 		return local < current ? local : current;
 	}
-
+	
+	/**
+	 * Determine if the file is a XML file from file extension.
+	 *  
+	 * @param file
+	 * @return
+	 */
+	public static boolean isXMLFile(File file){
+		return file!=null && file.exists() && file.getName().endsWith("xml");
+	}
 	/**
 	 * Here for consistent handling of full path names.
 	 *
