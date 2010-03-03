@@ -91,8 +91,7 @@ public class FileUtils extends org.codehaus.plexus.util.FileUtils {
 			XMLReader reader = factory.newSAXParser().getXMLReader();
 			reader.setEntityResolver( resolver );
 
-			// Disable DTD loading and validation
-			reader.setFeature( Constants.DTD_LOADING_FEATURE, false );
+			reader.setFeature( Constants.DTD_LOADING_FEATURE, true );
 			reader.setFeature( Constants.DTD_VALIDATION_FEATURE, false );
 
 			try {
