@@ -68,6 +68,13 @@ public interface Environment {
 	 *
 	 * @return The catalog resolver.
 	 */
+	public CatalogResolver getCatalogResolver();
+
+	/**
+	 * Retrieve the entity resolver (including the {@link #getCatalogResolver CatalogResolver} for this environment.
+	 *
+	 * @return The entity resolver.
+	 */
 	public EntityResolver getEntityResolver();
 
 	public URL[] getClasspathUriResolverBaseUrls();

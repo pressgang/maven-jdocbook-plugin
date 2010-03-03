@@ -509,18 +509,27 @@ public abstract class AbstractDocBookMojo extends AbstractMojo implements Render
 		return transformerBuilder;
 	}
 
-	private EntityResolver entityResolver;
+	private CatalogResolver catalogResolver;
 
-	public EntityResolver getEntityResolver() {
-		if ( entityResolver == null ) {
-			CatalogManager catalogManager;
+	public CatalogResolver getCatalogResolver() {
+		if ( catalogResolver == null ) {
+			final CatalogManager catalogManager;
 			if ( options.getCatalogs() == null || options.getCatalogs().length == 0 ) {
 				catalogManager = new ImplicitCatalogManager();
 			}
 			else {
 				catalogManager = new ExplicitCatalogManager( options.getCatalogs() );
 			}
-			entityResolver = new EntityResolverChain( new CatalogResolver( catalogManager ) );
+			catalogResolver = new CatalogResolver( catalogManager );
+		}
+		return catalogResolver;
+	}
+
+	private EntityResolver entityResolver;
+
+	public EntityResolver getEntityResolver() {
+		if ( entityResolver == null ) {
+			entityResolver = new EntityResolverChain( getCatalogResolver() );
 			( (EntityResolverChain) entityResolver ).addEntityResolver( new LocalDocBookEntityResolver() );
 			// todo : wrapping doctype injector per MPJDOCBOOK-50
 		}

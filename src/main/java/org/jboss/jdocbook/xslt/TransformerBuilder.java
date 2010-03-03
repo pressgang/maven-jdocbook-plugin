@@ -166,12 +166,13 @@ public class TransformerBuilder {
 	}
 
 	private void applyStandardResolvers(ResolverChain resolverChain) {
+		// See https://jira.jboss.org/jira/browse/MPJDOCBOOK-49
 		resolverChain.addResolver( new CurrentVersionResolver( environment ) );
 		if ( options().getDocbookVersion() != null ) {
 			resolverChain.addResolver( new VersionResolver( environment, options().getDocbookVersion() ) );
 		}
 		resolverChain.addResolver( new RelativeJarUriResolver() );
 		resolverChain.addResolver( new ClasspathResolver( resourceHelper().getCombinedClassLoader() ) );
-		resolverChain.addResolver( environment.getEntityResolver() );
+		resolverChain.addResolver( environment.getCatalogResolver() );
 	}
 }
