@@ -76,7 +76,10 @@ import org.jboss.jdocbook.xslt.TransformerBuilder;
 import org.jboss.jdocbook.xslt.XSLTException;
 import org.jboss.jdocbook.xslt.catalog.ExplicitCatalogManager;
 import org.jboss.jdocbook.xslt.catalog.ImplicitCatalogManager;
+import org.jboss.jdocbook.xslt.resolve.entity.EntityResolverChain;
+import org.jboss.jdocbook.xslt.resolve.entity.LocalDocBookEntityResolver;
 import org.jboss.maven.util.logging.PlexusToMavenPluginLoggingBridge;
+import org.xml.sax.EntityResolver;
 
 /**
  * Basic support for the various DocBook mojos in this packaging plugin.
@@ -506,10 +509,10 @@ public abstract class AbstractDocBookMojo extends AbstractMojo implements Render
 		return transformerBuilder;
 	}
 
-	private CatalogResolver catalogResolver;
+	private EntityResolver entityResolver;
 
-	public CatalogResolver getCatalogResolver() {
-		if ( catalogResolver == null ) {
+	public EntityResolver getEntityResolver() {
+		if ( entityResolver == null ) {
 			CatalogManager catalogManager;
 			if ( options.getCatalogs() == null || options.getCatalogs().length == 0 ) {
 				catalogManager = new ImplicitCatalogManager();
@@ -517,9 +520,11 @@ public abstract class AbstractDocBookMojo extends AbstractMojo implements Render
 			else {
 				catalogManager = new ExplicitCatalogManager( options.getCatalogs() );
 			}
-			catalogResolver = new CatalogResolver( catalogManager );
+			entityResolver = new EntityResolverChain( new CatalogResolver( catalogManager ) );
+			( (EntityResolverChain) entityResolver ).addEntityResolver( new LocalDocBookEntityResolver() );
+			// todo : wrapping doctype injector per MPJDOCBOOK-50
 		}
-		return catalogResolver;
+		return entityResolver;
 	}
 
 	private URL[] styleArtifactUrls;

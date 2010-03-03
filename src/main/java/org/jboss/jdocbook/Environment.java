@@ -32,6 +32,7 @@ import org.jboss.jdocbook.util.ResourceHelper;
 import org.jboss.jdocbook.render.format.FormatPlan;
 import org.jboss.jdocbook.render.format.StandardDocBookFormatDescriptor;
 import org.apache.xml.resolver.tools.CatalogResolver;
+import org.xml.sax.EntityResolver;
 
 /**
  * Basic environment in which jDocBook is executing.
@@ -67,7 +68,7 @@ public interface Environment {
 	 *
 	 * @return The catalog resolver.
 	 */
-	public CatalogResolver getCatalogResolver();
+	public EntityResolver getEntityResolver();
 
 	public URL[] getClasspathUriResolverBaseUrls();
 

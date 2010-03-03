@@ -94,7 +94,7 @@ class ProfilerImpl implements Profiler {
 	private Source buildSource(File sourceFile) throws RenderingException {
 		return FileUtils.createSAXSource(
 				sourceFile,
-				environment.getCatalogResolver(),
+				environment.getEntityResolver(),
 				environment.getOptions().isXincludeSupported(),
 				environment.getValueInjections()
 		);

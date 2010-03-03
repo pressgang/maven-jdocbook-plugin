@@ -172,6 +172,6 @@ public class TransformerBuilder {
 		}
 		resolverChain.addResolver( new RelativeJarUriResolver() );
 		resolverChain.addResolver( new ClasspathResolver( resourceHelper().getCombinedClassLoader() ) );
-		resolverChain.addResolver( environment.getCatalogResolver() );
+		resolverChain.addResolver( environment.getEntityResolver() );
 	}
 }

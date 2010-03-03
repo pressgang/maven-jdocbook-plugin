@@ -106,7 +106,7 @@ public class GenerationMojo extends AbstractDocBookMojo {
 			profilerFactory.buildProfiler().applyProfiling();
 		}
 
-		final EntityResolver entityResolver = getCatalogResolver();
+		final EntityResolver entityResolver = getEntityResolver();
 
 		for ( FormatPlan formatPlan : getFormatPlans() ) {
 			rendererFactory.buildRenderer( formatPlan, entityResolver ).render();

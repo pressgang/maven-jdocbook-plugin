@@ -44,7 +44,7 @@ public class GenerateXslFoMojo extends AbstractDocBookMojo {
 
 	@Override
 	protected void process() throws JDocBookProcessException {
-		final EntityResolver entityResolver = getCatalogResolver();
+		final EntityResolver entityResolver = getEntityResolver();
 		final FormatPlan pdfFormatPlan = getFormatPlan( StandardDocBookFormatDescriptors.PDF );
 		rendererFactory.buildXslFoGenerator( pdfFormatPlan, entityResolver ).generateXslFo();
 	}
