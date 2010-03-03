@@ -83,49 +83,17 @@ public class FileUtils extends org.codehaus.plexus.util.FileUtils {
 			boolean xincludeAware,
 			final List<ValueInjection> valueInjections) {
 		try {
-			final boolean injectionsDefined = valueInjections != null && ! valueInjections.isEmpty();
+			final InputSource source = createInputSource( file, valueInjections );
 
         	SAXParserFactory factory = new SAXParserFactoryImpl();
         	factory.setXIncludeAware( xincludeAware  );
 
 			XMLReader reader = factory.newSAXParser().getXMLReader();
 			reader.setEntityResolver( resolver );
-
 			reader.setFeature( Constants.DTD_LOADING_FEATURE, true );
 			reader.setFeature( Constants.DTD_VALIDATION_FEATURE, false );
 
-			try {
-				InputStream inputStream = new BufferedInputStream( new FileInputStream( file ) );
-				if ( injectionsDefined ) {
-					DoctypeChangerStream changerStream = new DoctypeChangerStream( inputStream );
-					changerStream.setGenerator(
-							new DoctypeGenerator() {
-								public Doctype generate(final Doctype doctype) {
-									final String root = doctype == null ? null : doctype.getRootElement();
-									final String pubId = doctype == null ? null : doctype.getPublicId();
-									final String sysId = doctype == null ? null : doctype.getSystemId();
-
-									StringBuffer internalSubset = new StringBuffer();
-									buildInjectedInternalEntitySubset( internalSubset, valueInjections );
-									if ( doctype != null && doctype.getInternalSubset() != null ) {
-										internalSubset.append( doctype.getInternalSubset() ).append( '\n' );
-									}
-									return new DoctypeImpl( root, pubId, sysId, internalSubset.toString() );
-								}
-							}
-					);
-					inputStream = changerStream;
-				}
-				InputSource source = new InputSource( inputStream );
-				source.setSystemId( file.toURI().toURL().toString() );
-				return new SAXSource( reader, source );
-			}
-			catch ( FileNotFoundException e ) {
-				throw new JDocBookProcessException( "unable to locate source file", e );
-			}
-			catch ( MalformedURLException e ) {
-				throw new JDocBookProcessException( "unexpected problem converting file to URL", e );
-			}
+			return new SAXSource( reader, source );
 		}
 		catch ( ParserConfigurationException e ) {
 			throw new JDocBookProcessException( "unable to build SAX Parser/Factory [" + e.getMessage() + "]", e );
@@ -134,6 +102,44 @@ public class FileUtils extends org.codehaus.plexus.util.FileUtils {
 			throw new JDocBookProcessException( "unable to build SAX Parser/Factory [" + e.getMessage() + "]", e );
 		}
 
+	}
+
+	public static InputSource createInputSource(
+			File file,
+			final List<ValueInjection> valueInjections) throws SAXException {
+		final boolean injectionsDefined = valueInjections != null && ! valueInjections.isEmpty();
+		try {
+			InputStream inputStream = new BufferedInputStream( new FileInputStream( file ) );
+			if ( injectionsDefined ) {
+				DoctypeChangerStream changerStream = new DoctypeChangerStream( inputStream );
+				changerStream.setGenerator(
+						new DoctypeGenerator() {
+							public Doctype generate(final Doctype doctype) {
+								final String root = doctype == null ? null : doctype.getRootElement();
+								final String pubId = doctype == null ? null : doctype.getPublicId();
+								final String sysId = doctype == null ? null : doctype.getSystemId();
+
+								StringBuffer internalSubset = new StringBuffer();
+								buildInjectedInternalEntitySubset( internalSubset, valueInjections );
+								if ( doctype != null && doctype.getInternalSubset() != null ) {
+									internalSubset.append( doctype.getInternalSubset() ).append( '\n' );
+								}
+								return new DoctypeImpl( root, pubId, sysId, internalSubset.toString() );
+							}
+						}
+				);
+				inputStream = changerStream;
+			}
+			InputSource source = new InputSource( inputStream );
+			source.setSystemId( file.toURI().toURL().toString() );
+			return source;
+		}
+		catch ( FileNotFoundException e ) {
+			throw new JDocBookProcessException( "unable to locate source file", e );
+		}
+		catch ( MalformedURLException e ) {
+			throw new JDocBookProcessException( "unexpected problem converting file to URL", e );
+		}
 	}
 
 	/**

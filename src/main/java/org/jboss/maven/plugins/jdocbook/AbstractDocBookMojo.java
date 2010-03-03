@@ -78,6 +78,7 @@ import org.jboss.jdocbook.xslt.catalog.ExplicitCatalogManager;
 import org.jboss.jdocbook.xslt.catalog.ImplicitCatalogManager;
 import org.jboss.jdocbook.xslt.resolve.entity.EntityResolverChain;
 import org.jboss.jdocbook.xslt.resolve.entity.LocalDocBookEntityResolver;
+import org.jboss.jdocbook.xslt.resolve.entity.XIncludeEntityResolver;
 import org.jboss.maven.util.logging.PlexusToMavenPluginLoggingBridge;
 import org.xml.sax.EntityResolver;
 
@@ -531,7 +532,7 @@ public abstract class AbstractDocBookMojo extends AbstractMojo implements Render
 		if ( entityResolver == null ) {
 			entityResolver = new EntityResolverChain( getCatalogResolver() );
 			( (EntityResolverChain) entityResolver ).addEntityResolver( new LocalDocBookEntityResolver() );
-			// todo : wrapping doctype injector per MPJDOCBOOK-50
+			( (EntityResolverChain) entityResolver ).addEntityResolver( new XIncludeEntityResolver( this ) );
 		}
 		return entityResolver;
 	}

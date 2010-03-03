@@ -234,9 +234,10 @@ public class BasicRenderer implements Renderer {
 				sourceFile,
 				entityResolver,
 				environment.getOptions().isXincludeSupported(),
-				environment.getProfilingConfiguration().isEnabled()
-						? null
-						: environment.getValueInjections()
+//				environment.getProfilingConfiguration().isEnabled()
+//						? null
+//						: environment.getValueInjections()
+				environment.getValueInjections()
 		);
     }
 
