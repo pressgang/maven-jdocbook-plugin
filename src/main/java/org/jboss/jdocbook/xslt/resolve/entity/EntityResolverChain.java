@@ -24,8 +24,7 @@
 package org.jboss.jdocbook.xslt.resolve.entity;
 
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.LinkedList;
 
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
@@ -40,7 +39,7 @@ import org.xml.sax.SAXException;
  * @author Steve Ebersole
  */
 public class EntityResolverChain implements EntityResolver {
-	private Deque<EntityResolver> entityResolvers = new ArrayDeque<EntityResolver>();
+	private LinkedList<EntityResolver> entityResolvers = new LinkedList<EntityResolver>();
 
 	public EntityResolverChain(EntityResolver rootResolver) {
 		entityResolvers.addLast( rootResolver );
