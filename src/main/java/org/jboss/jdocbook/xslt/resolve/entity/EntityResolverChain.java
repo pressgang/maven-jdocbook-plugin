@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import com.sun.org.apache.xml.internal.resolver.tools.CatalogResolver;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
