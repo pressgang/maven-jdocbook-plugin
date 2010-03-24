@@ -34,7 +34,7 @@
     <groupId>org.jboss.maven.plugins</groupId>
     <artifactId>maven-jdocbook-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>2.2.3</version>
+    <version>2.2.4-SNAPSHOT</version>
 
     <name>jDocBook Maven Plugin</name>
     <description>This plugin adds support for DocBook handling to Maven.</description>
@@ -69,9 +69,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:svn:http://anonsvn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/tags/maven-jdocbook-plugin-2.2.3</connection>
-        <developerConnection>scm:svn:https://svn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/tags/maven-jdocbook-plugin-2.2.3</developerConnection>
-        <url>http://anonsvn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/tags/maven-jdocbook-plugin-2.2.3</url>
+        <connection>scm:svn:http://anonsvn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</connection>
+        <developerConnection>scm:svn:https://svn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</developerConnection>
+        <url>http://anonsvn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</url>
     </scm>
     <distributionManagement>
         <repository>
