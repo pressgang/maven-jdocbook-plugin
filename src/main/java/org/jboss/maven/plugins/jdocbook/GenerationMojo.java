@@ -1,10 +1,10 @@
 /*
- * jDocBook, processing of DocBook sources as a Maven plugin
+ * jDocBook, processing of DocBook sources
  *
- * Copyright (c) 2009, Red Hat Middleware LLC or third-party contributors as
+ * Copyright (c) 2010, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
- * distributed under license by Red Hat Middleware LLC.
+ * distributed under license by Red Hat Inc.
  *
  * This copyrighted material is made available to anyone wishing to use, modify,
  * copy, or redistribute it subject to the terms and conditions of the GNU
@@ -23,17 +23,11 @@
  */
 package org.jboss.maven.plugins.jdocbook;
 
-import java.util.List;
-import java.util.Set;
-import java.util.ArrayList;
-
-import org.apache.maven.artifact.Artifact;
-import org.jboss.jdocbook.profile.ProfilerFactory;
+import org.jboss.jdocbook.profile.Profiler;
+import org.jboss.jdocbook.render.FormatOptions;
+import org.jboss.jdocbook.render.Renderer;
 import org.jboss.jdocbook.render.RenderingException;
-import org.jboss.jdocbook.render.format.FormatPlan;
-import org.jboss.jdocbook.render.RendererFactory;
 import org.jboss.jdocbook.xslt.XSLTException;
-import org.xml.sax.EntityResolver;
 
 /**
  * This mojo's responsibility within the plugin/packaging is actually performing 
@@ -46,70 +40,31 @@ import org.xml.sax.EntityResolver;
  *
  * @author Steve Ebersole
  */
+@SuppressWarnings({ "UnusedDeclaration" })
 public class GenerationMojo extends AbstractDocBookMojo {
-	/**
-	 * INTERNAL : The artifacts associated with the dependencies defined as part
-	 * of the project to which we are being attached.
-	 *
-	 * @parameter expression="${project.artifacts}"
-     * @required
-     * @readonly
-	 */
-	protected Set projectArtifacts;
 
-	/**
-	 * INTERNAL : The artifacts associated to the dependencies defined as part
-	 * of our configuration within the project to which we are being attached.
-	 *
-	 * @parameter expression="${plugin.artifacts}"
-     * @required
-     * @readonly
-	 */
-	protected List pluginArtifacts;
-
-	private final ProfilerFactory profilerFactory = new ProfilerFactory( this );
-	private final RendererFactory rendererFactory = new RendererFactory( this );
-
-	@SuppressWarnings({ "unchecked" })
 	@Override
+	@SuppressWarnings({ "unchecked" })
 	protected void process() throws XSLTException, RenderingException {
 		if ( !sourceDirectory.exists() ) {
 			getLog().info( "sourceDirectory [" + sourceDirectory.getAbsolutePath() + "] did not exist" );
 			return;
 		}
 
-		if ( options.getDocbookVersion() == null ) {
-			List<Artifact> artifacts = new ArrayList<Artifact>();
-			artifacts.addAll( projectArtifacts );
-			artifacts.addAll( pluginArtifacts );
+		final Profiler profiler = getComponentRegistry().getProfiler();
+		final Renderer renderer = getComponentRegistry().getRenderer();
 
-			for ( Artifact artifact : artifacts ) {
-				if ( "net.sf.docbook".equals( artifact.getGroupId() ) &&
-						"docbook".equals( artifact.getArtifactId() ) ) {
-					getLog().debug( "Found docbook version : " + artifact.getVersion() );
-					if ( options.getDocbookVersion() != null ) {
-						getLog().warn( "found multiple docbook versions" );
-					}
-					options.setDocbookVersion( artifact.getVersion() );
+		final Matcher<String> matcher = new Matcher<String>( getRequestedFormat() );
+
+		for ( PublishingSource publishingSource : resolvePublishingSources() ) {
+			if ( profiling.isEnabled() ) {
+				profiler.profile( publishingSource );
+			}
+			for ( FormatOptions formatOptions : getFormatOptionsList() ) {
+				if ( matcher.matches( formatOptions.getName() ) ) {
+					renderer.render( publishingSource, formatOptions );
 				}
 			}
-		}
-
-		if ( !workDirectory.exists() ) {
-			boolean created = workDirectory.mkdirs();
-			if ( !created ) {
-				loggingBridge.info( "Unable to create work directory {}", workDirectory.getAbsolutePath() );
-			}
-		}
-
-		if ( profiling.isEnabled() ) {
-			profilerFactory.buildProfiler().applyProfiling();
-		}
-
-		final EntityResolver entityResolver = getEntityResolver();
-
-		for ( FormatPlan formatPlan : getFormatPlans() ) {
-			rendererFactory.buildRenderer( formatPlan, entityResolver ).render();
 		}
 	}
 }

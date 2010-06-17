@@ -1,10 +1,10 @@
 /*
- * jDocBook, processing of DocBook sources as a Maven plugin
+ * jDocBook, processing of DocBook sources
  *
- * Copyright (c) 2009, Red Hat Middleware LLC or third-party contributors as
+ * Copyright (c) 2010, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
- * distributed under license by Red Hat Middleware LLC.
+ * distributed under license by Red Hat Inc.
  *
  * This copyrighted material is made available to anyone wishing to use, modify,
  * copy, or redistribute it subject to the terms and conditions of the GNU
@@ -52,9 +52,8 @@ import org.jboss.maven.shared.resource.ResourceDelegate;
  *
  * @author Steve Ebersole
  */
+@SuppressWarnings({ "UnusedDeclaration" })
 public class ResourceMojo extends AbstractDocBookMojo {
-
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -74,7 +73,7 @@ public class ResourceMojo extends AbstractDocBookMojo {
 	private void stageStyleSupportArtifacts() {
 		for ( Artifact artifact : collectArtifactsByType( "jdocbook-style", true ) ) {
 			getLog().debug( "processing support artifact : " + artifact.getId() );
-			unpackSupportArtifact( artifact.getFile(), stagingDirectory, styleEntryFilters );
+			unpackSupportArtifact( artifact.getFile(), directoryLayout.getStagingDirectory(), styleEntryFilters );
 		}
 	}
 
@@ -112,11 +111,15 @@ public class ResourceMojo extends AbstractDocBookMojo {
 
 	private void stageProjectResources() throws RenderingException {
 		if ( imageResource != null ) {
-			new ResourceDelegate( project, new File( stagingDirectory, "images" ), getLog() ).process( imageResource );
+			new ResourceDelegate( project, new File( stagingDirectory(), "images" ), getLog() ).process( imageResource );
 		}
 		if ( cssResource != null ) {
-			new ResourceDelegate( project, new File( stagingDirectory, "css" ), getLog() ).process( cssResource );
+			new ResourceDelegate( project, new File( stagingDirectory(), "css" ), getLog() ).process( cssResource );
 		}
+	}
+
+	private File stagingDirectory() {
+		return directoryLayout.getStagingDirectory();
 	}
 
 

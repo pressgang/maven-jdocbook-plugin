@@ -1,10 +1,10 @@
 /*
- * jDocBook, processing of DocBook sources as a Maven plugin
+ * jDocBook, processing of DocBook sources
  *
- * Copyright (c) 2009, Red Hat Middleware LLC or third-party contributors as
+ * Copyright (c) 2010, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
- * distributed under license by Red Hat Middleware LLC.
+ * distributed under license by Red Hat Inc.
  *
  * This copyrighted material is made available to anyone wishing to use, modify,
  * copy, or redistribute it subject to the terms and conditions of the GNU
@@ -21,7 +21,6 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  */
-
 package org.jboss.maven.plugins.jdocbook;
 
 import java.io.File;
@@ -29,8 +28,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 import org.jboss.jdocbook.JDocBookProcessException;
-import org.jboss.jdocbook.i18n.I18nSource;
-import org.codehaus.plexus.util.FileUtils;
+import org.jboss.jdocbook.util.FileUtils;
 
 /**
  * CleanPoMojo implementation
@@ -40,20 +38,20 @@ import org.codehaus.plexus.util.FileUtils;
  *
  * @author Steve Ebersole
  */
+@SuppressWarnings({ "UnusedDeclaration" })
 public class CleanPoMojo extends AbstractDocBookMojo {
 	protected void doExecute() throws JDocBookProcessException {
-		Locale requestedLocale = getRequestedLocale();
-		for ( I18nSource source : getI18nSources( true ) ) {
-			if ( requestedLocale != null && !requestedLocale.equals( source.getLocale() ) ) {
-				continue;
-			}
-			final File poDirectory = source.resolvePoDirectory();
-			if ( poDirectory.exists() ) {
-				try {
-					FileUtils.cleanDirectory( poDirectory );
-				}
-				catch ( IOException e ) {
-					getLog().warn( "unable to cleanup POT directory [" + poDirectory + "]", e );
+		final Matcher<Locale> matcher = new Matcher<Locale>( getRequestedLanguageLocale() );
+		for ( String translation : translations ) {
+			if ( matcher.matches( fromLanguageString( translation ) ) ) {
+				final File poDirectory = directoryLayout.getTranslationSourceDirectory( translation );
+				if ( poDirectory.exists() ) {
+					try {
+						FileUtils.cleanDirectory( poDirectory );
+					}
+					catch ( IOException e ) {
+						getLog().warn( "unable to cleanup POT directory [" + poDirectory + "]", e );
+					}
 				}
 			}
 		}

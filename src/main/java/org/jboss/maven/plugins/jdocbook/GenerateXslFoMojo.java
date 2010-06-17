@@ -1,10 +1,10 @@
 /*
- * jDocBook, processing of DocBook sources as a Maven plugin
+ * jDocBook, processing of DocBook sources
  *
- * Copyright (c) 2009, Red Hat Middleware LLC or third-party contributors as
+ * Copyright (c) 2010, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
- * distributed under license by Red Hat Middleware LLC.
+ * distributed under license by Red Hat Inc.
  *
  * This copyrighted material is made available to anyone wishing to use, modify,
  * copy, or redistribute it subject to the terms and conditions of the GNU
@@ -23,29 +23,56 @@
  */
 package org.jboss.maven.plugins.jdocbook;
 
+import java.io.File;
+import java.util.Locale;
+
 import org.jboss.jdocbook.JDocBookProcessException;
-import org.jboss.jdocbook.render.format.FormatPlan;
-import org.jboss.jdocbook.render.format.StandardDocBookFormatDescriptors;
-import org.jboss.jdocbook.render.RendererFactory;
-import org.xml.sax.EntityResolver;
+import org.jboss.jdocbook.render.FormatOptions;
+import org.jboss.jdocbook.render.RenderingSource;
+import org.jboss.jdocbook.util.StandardDocBookFormatMetadata;
 
 /**
  * Mojo to create an intermediate XSL-FO from the docbook source(s).
- *
- * @see org.jboss.jdocbook.render.impl.fop.XslFoGeneratorImpl for details.
  *
  * @goal xslfo
  * @requiresDependencyResolution
  *
  * @author Steve Ebersole
  */
+@SuppressWarnings({ "UnusedDeclaration" })
 public class GenerateXslFoMojo extends AbstractDocBookMojo {
-	private final RendererFactory rendererFactory = new RendererFactory( this );
-
 	@Override
 	protected void process() throws JDocBookProcessException {
-		final EntityResolver entityResolver = getEntityResolver();
-		final FormatPlan pdfFormatPlan = getFormatPlan( StandardDocBookFormatDescriptors.PDF );
-		rendererFactory.buildXslFoGenerator( pdfFormatPlan, entityResolver ).generateXslFo();
+		getComponentRegistry().getXslFoGenerator().generateXslFo(
+				new RenderingSourceImpl(),
+				getPdfFormatOptions()
+		);
+	}
+
+	public class RenderingSourceImpl implements RenderingSource {
+		public Locale getLanguage() {
+			return getMasterLanguageLocale();
+		}
+
+		public File resolveSourceDocument() {
+			return getRootMasterSourceFile();
+		}
+
+		public File resolvePublishingBaseDirectory() {
+			// n/a
+			return null;
+		}
+
+		public File getXslFoDirectory() {
+			return directoryLayout.getXslFoDirectory();
+		}
+	}
+
+	public FormatOptions getPdfFormatOptions() {
+		FormatOptions formatOptions = getFormatOptions( StandardDocBookFormatMetadata.PDF.getName() );
+		if ( formatOptions == null ) {
+			throw new JDocBookProcessException( "Unable to locate PDF format options" );
+		}
+		return formatOptions;
 	}
 }
