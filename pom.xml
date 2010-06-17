@@ -135,6 +135,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.jboss.jdocbook</groupId>
+            <artifactId>jdocbook-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
             <!-- DocBook (this is the version used, unless user project imports one...) -->
             <groupId>net.sf.docbook</groupId>
             <artifactId>docbook</artifactId>
@@ -145,12 +151,6 @@
             <groupId>org.jboss.maven.util</groupId>
             <artifactId>jboss-maven-utils</artifactId>
             <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.jdocbook</groupId>
-            <artifactId>jdocbook-core</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
