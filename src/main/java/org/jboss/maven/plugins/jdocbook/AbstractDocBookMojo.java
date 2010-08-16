@@ -94,7 +94,7 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 	/**
 	 * The base directory where output will be written.
 	 *
-	 * @parameter expression="${basedir}/target/docbook"
+	 * @parameter expression="${basedir}/target"
 	 */
 	protected File baseOutputDirectory;
 
