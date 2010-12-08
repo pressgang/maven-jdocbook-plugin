@@ -53,6 +53,13 @@
             <organizationUrl>http://jboss.org</organizationUrl>
             <timezone>-5</timezone>
         </developer>
+		<developer>
+            <name>Strong Liu</name>
+            <email>stliu@hibernate.org</email>
+            <organization>JBoss, a division of Red Hat, Inc</organization>
+            <organizationUrl>http://jboss.org</organizationUrl>
+            <timezone>+8</timezone>
+        </developer>
     </developers>
 
     <issueManagement>
@@ -125,6 +132,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
+				<version>2.3</version>
             </plugin>
         </plugins>
     </reporting>
