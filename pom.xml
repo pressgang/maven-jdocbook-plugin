@@ -141,7 +141,7 @@
         <dependency>
             <groupId>org.jboss.jdocbook</groupId>
             <artifactId>jdocbook-core</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -160,7 +160,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.5.8</version>
+            <version>1.6.1</version>
         </dependency>
 
         <!-- http://jira.codehaus.org/browse/MNG-4761 via https://jira.jboss.org/browse/MPJDOCBOOK-59 -->
