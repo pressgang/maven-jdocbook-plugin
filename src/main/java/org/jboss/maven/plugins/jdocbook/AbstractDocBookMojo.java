@@ -35,7 +35,7 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Properties;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -691,7 +691,7 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 			return options;
 		}
 
-		public Properties getTransformerParameters() {
+		public Map<String,String> getTransformerParameters() {
 			return options().getTransformerParameters();
 		}
 

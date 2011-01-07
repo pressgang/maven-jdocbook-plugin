@@ -23,7 +23,8 @@
  */
 package org.jboss.maven.plugins.jdocbook;
 
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Maven non-sense.  Simply pulls Options into the namespace in regards to plugin config.
@@ -63,11 +64,11 @@ public class Options {
 		return catalogs;
 	}
 
-	private Properties transformerParameters;
+	private Map<String,String> transformerParameters;
 
-	public Properties getTransformerParameters() {
+	public Map<String,String> getTransformerParameters() {
 		if ( transformerParameters == null ) {
-			transformerParameters = new Properties();
+			transformerParameters = new HashMap<String, String>();
 		}
 		return transformerParameters;
 	}
