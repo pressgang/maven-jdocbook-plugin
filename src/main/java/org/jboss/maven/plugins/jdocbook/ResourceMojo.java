@@ -101,9 +101,6 @@ public class ResourceMojo extends AbstractDocBookMojo {
         catch ( ArchiverException e ) {
             throw new RenderingException( "Error unpacking file [" + file + "] to [" + target + "]", e );
         }
-        catch ( IOException e ) {
-            throw new RenderingException( "Error unpacking file [" + file + "] to [" + target + "]", e );
-        }
     }
 
 
