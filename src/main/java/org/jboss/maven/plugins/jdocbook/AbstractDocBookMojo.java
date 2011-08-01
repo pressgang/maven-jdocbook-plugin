@@ -716,7 +716,7 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 		public LinkedHashSet<ValueInjection> getValueInjections() {
 			if ( valueInjections == null ) {
 				valueInjections = new LinkedHashSet<ValueInjection>();
-				valueInjections.addAll( getValueInjections() );
+				valueInjections.addAll( Arrays.asList(injections) );
 
 				if ( options().isApplyStandardInjectionValues() ) {
 					valueInjections.add( new ValueInjection( "version", project.getVersion() ) );
