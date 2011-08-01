@@ -28,7 +28,7 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>5</version>
+        <version>6</version>
     </parent>
 
     <groupId>org.jboss.maven.plugins</groupId>
@@ -50,15 +50,21 @@
             <name>Steve Ebersole</name>
             <email>steve@hibernate.org</email>
             <organization>JBoss, a division of Red Hat, Inc</organization>
-            <organizationUrl>http://jboss.org</organizationUrl>
+            <organizationUrl>http://www.jboss.org</organizationUrl>
             <timezone>-5</timezone>
         </developer>
         <developer>
             <name>Strong Liu</name>
             <email>stliu@hibernate.org</email>
             <organization>JBoss, a division of Red Hat, Inc</organization>
-            <organizationUrl>http://jboss.org</organizationUrl>
+            <organizationUrl>http://www.jboss.org</organizationUrl>
             <timezone>+8</timezone>
+        </developer>
+        <developer>
+            <name>Geoffrey De Smet</name>
+            <organization>JBoss, a division of Red Hat, Inc</organization>
+            <organizationUrl>http://www.jboss.org</organizationUrl>
+            <timezone>+1</timezone>
         </developer>
     </developers>
 
@@ -80,18 +86,6 @@
         <developerConnection>scm:svn:https://svn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</developerConnection>
         <url>http://fisheye.jboss.org/browse/Maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</url>
     </scm>
-    <distributionManagement>
-        <repository>
-            <id>jboss-releases-repository</id>
-            <name>JBoss Releases Repository</name>
-            <url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>jboss-snapshots-repository</id>
-            <name>JBoss Snapshots Repository</name>
-            <url>https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <repositories>
         <!-- Conventions are described in http://community.jboss.org/wiki/MavenGettingStarted-Developers -->
@@ -170,7 +164,7 @@
         <dependency>
             <groupId>org.jboss.jdocbook</groupId>
             <artifactId>jdocbook-core</artifactId>
-            <version>1.0.4</version>
+            <version>1.0.5</version>
         </dependency>
 
         <dependency>
