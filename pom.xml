@@ -82,9 +82,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:svn:http://anonsvn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</connection>
-        <developerConnection>scm:svn:https://svn.jboss.org/repos/maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</developerConnection>
-        <url>http://fisheye.jboss.org/browse/Maven/plugins/jdocbook/maven-jdocbook-plugin/trunk</url>
+        <connection>scm:git:git@github.com:pressgang/maven-jdocbook-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:pressgang/maven-jdocbook-plugin.git</developerConnection>
+        <url>https://github.com/pressgang/maven-jdocbook-plugin</url>
     </scm>
 
     <repositories>
