@@ -1,9 +1,16 @@
 /target
-/.settings
-/.classpath
-/.project
-/.idea
+/local
+
+# Eclipse, Netbeans and IntelliJ files
+/.*
+!.gitignore
+/nbproject
 /*.ipr
-/*.iml
 /*.iws
+/*.iml
+
+# Repository wide ignore mac DS_Store files
+.DS_Store
+
+# Legacy ignores
 /atlassian-ide-plugin.xml
