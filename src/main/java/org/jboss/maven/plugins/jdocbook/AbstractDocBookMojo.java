@@ -51,6 +51,7 @@ import org.apache.maven.settings.Proxy;
 import org.apache.maven.shared.dependency.tree.DependencyNode;
 import org.apache.maven.shared.dependency.tree.DependencyTreeResolutionListener;
 import org.jboss.jdocbook.Configuration;
+import org.jboss.jdocbook.DocBookSchemaResolutionStrategy;
 import org.jboss.jdocbook.Environment;
 import org.jboss.jdocbook.JDocBookComponentRegistry;
 import org.jboss.jdocbook.JDocBookProcessException;
@@ -381,6 +382,15 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 	}
 
 	private void resolveArtifact(Artifact artifact) {
+        // TODO Workaround HACK for https://github.com/pressgang/jdocbook-core/issues/13
+        // See also TODO in pom.xml
+        if (artifact.getType().equals("jar")
+                && (artifact.getGroupId().equals("net.sf.docbook") && (artifact.getArtifactId().equals("docbook-xml")
+                && artifact.getVersion().equals("5.0"))
+                || (artifact.getGroupId().equals("net.sf.docbook") && artifact.getArtifactId().equals("docbook-xsl")
+                && artifact.getVersion().equals("1.76.1")))) {
+            return;
+        }
 		try {
 			artifactResolver.resolve( artifact, project.getRemoteArtifactRepositories(), localRepository );
 		}
@@ -576,7 +586,12 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 		public DocBookXsltResolutionStrategy getDocBookXsltResolutionStrategy() {
 			return DocBookXsltResolutionStrategy.INCLUSIVE;
 		}
-	}
+
+        public DocBookSchemaResolutionStrategy getDocBookSchemaResolutionStrategy() {
+            // TODO Maybe some are still using the legacy DTD stuff. In that case we want to make this overwritable
+            return DocBookSchemaResolutionStrategy.XSD;
+        }
+    }
 
 	private class ResourceDelegateImpl extends ResourceDelegateSupport {
 		private ClassLoader loader;
