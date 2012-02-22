@@ -574,7 +574,7 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 		}
 
 		public DocBookXsltResolutionStrategy getDocBookXsltResolutionStrategy() {
-			return DocBookXsltResolutionStrategy.NAMED;
+			return DocBookXsltResolutionStrategy.INCLUSIVE;
 		}
 	}
 
