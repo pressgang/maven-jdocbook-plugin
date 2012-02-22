@@ -191,13 +191,13 @@
         <dependency>
             <groupId>saxon</groupId>
             <artifactId>saxon</artifactId>
-            <version>6.5.3</version>
+            <version>6.5.3</version><!-- TODO Upgrade to 8.7 or 9.1.0.8 -->
         </dependency>
         <!-- http://jira.codehaus.org/browse/MNG-4761 via https://jira.jboss.org/browse/MPJDOCBOOK-59 -->
         <dependency>
             <groupId>xml-resolver</groupId>
             <artifactId>xml-resolver</artifactId>
-            <version>1.1</version>
+            <version>1.1</version><!-- TODO Upgrade to 1.2 -->
         </dependency>
 
         <!-- Maven deps -->
@@ -223,7 +223,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
-            <artifactId>maven-project</artifactId>
+            <artifactId>maven-compat</artifactId>
             <version>${maven.version}</version>
         </dependency>
         <dependency>
@@ -249,7 +249,7 @@
     </dependencies>
 
     <properties>
-        <maven.version>2.2.1</maven.version>
+        <maven.version>3.0.3</maven.version>
         <batikVersion>1.6</batikVersion>
     </properties>
 

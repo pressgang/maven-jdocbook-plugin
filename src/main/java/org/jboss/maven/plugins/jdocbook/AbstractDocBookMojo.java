@@ -43,6 +43,7 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.AbstractArtifactResolutionException;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
+import org.apache.maven.artifact.resolver.ResolutionListener;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -329,28 +330,23 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 
 	@SuppressWarnings({ "unchecked" })
 	protected List<Artifact> collectArtifactsByType(String type, boolean transitivesFirst) {
-		Set dependencyArtifacts = project.getArtifacts();
+		Set<Artifact> dependencyArtifacts = project.getArtifacts();
 		dependencyArtifacts.addAll( pluginArtifacts );
 
 		DependencyTreeResolutionListener listener = new DependencyTreeResolutionListener(
 				new PlexusToMavenPluginLoggingBridge( getLog() )
 		);
 
-		try {
-			artifactCollector.collect(
-					dependencyArtifacts,
-					project.getArtifact(),
-					project.getManagedVersionMap(),
-					localRepository,
-					project.getRemoteArtifactRepositories(),
-					artifactMetadataSource,
-					null,
-					Collections.singletonList( listener )
-			);
-		}
-		catch ( AbstractArtifactResolutionException e ) {
-			throw new JDocBookProcessException( "Cannot build project dependency tree", e );
-		}
+        artifactCollector.collect(
+                dependencyArtifacts,
+                project.getArtifact(),
+                project.getManagedVersionMap(),
+                localRepository,
+                project.getRemoteArtifactRepositories(),
+                artifactMetadataSource,
+                null,
+                Collections.singletonList( (ResolutionListener) listener )
+        );
 
 		List<Artifact> artifacts = new ArrayList<Artifact>();
 		processNode( listener.getRootNode(), artifacts, type, transitivesFirst );
