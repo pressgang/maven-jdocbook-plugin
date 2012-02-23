@@ -206,7 +206,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-
     <dependency>
       <groupId>net.sf.docbook</groupId>
       <artifactId>docbook-xml</artifactId>
