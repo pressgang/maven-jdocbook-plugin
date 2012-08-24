@@ -32,7 +32,7 @@ import java.util.Map;
  * @author Steve Ebersole
  */
 public class Options {
-	public static final String DEFAULT_STANDARD_DATE_INJECTION_FORMAT = "MMMM d, yyyy";
+	public static final String DEFAULT_STANDARD_DATE_INJECTION_FORMAT = "yyyy-MM-dd";
 	private boolean xincludeSupported;
 	public boolean isXincludeSupported() {
 		return xincludeSupported;
