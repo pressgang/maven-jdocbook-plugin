@@ -38,7 +38,7 @@ import org.codehaus.plexus.util.introspection.ReflectionValueExtractor;
  * <p/>
  * Aggregation occurs across {@link System#getProperties()},
  * {@link org.apache.maven.project.MavenProject#getProperties()} and
- * via bean-propetties-style reflection on {@link org.apache.maven.project.MavenProject}.
+ * via bean-properties-style reflection on {@link org.apache.maven.project.MavenProject}.
  *
  * @author Steve Ebersole
  */
@@ -52,8 +52,8 @@ public class CompositeMavenProjectProperties extends AbstractMap {
 		values = new HashMap( System.getProperties() );
 		values.putAll( project.getProperties() );
 		for ( Object o : project.getBuild().getFilters() ) {
-			String filtersfile = ( String ) o;
-			values.putAll( PropertiesHelper.loadPropertyFile( new File( filtersfile ) ) );
+			String filtersFile = ( String ) o;
+			values.putAll( PropertiesHelper.loadPropertyFile( new File( filtersFile ) ) );
 		}
 	}
 

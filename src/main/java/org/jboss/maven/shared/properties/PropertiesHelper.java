@@ -57,7 +57,7 @@ public class PropertiesHelper {
 	 */
 	public static Properties loadPropertyFile(File propfile) {
 		if ( !propfile.exists() ) {
-			throw new PropertiesException( "unable to locate spercified prop file [" + propfile.toString() + "]" );
+			throw new PropertiesException( "unable to locate specified prop file [" + propfile.toString() + "]" );
 		}
 
 		Properties props = new Properties();

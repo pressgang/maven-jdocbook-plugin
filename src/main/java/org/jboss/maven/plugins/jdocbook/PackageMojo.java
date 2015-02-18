@@ -34,7 +34,7 @@ import org.jboss.jdocbook.xslt.XSLTException;
 
 /**
  * This mojo's responsibility within the plugin/packaging is to bundle the
- * individual formats into deployable formats.  The desicion  Note that some formats (PDF, e.g.) are
+ * individual formats into deployable formats. Note that some formats (PDF, e.g.) are
  * already deployable.
  * <p/>
  * After bundling, each bundle is then attached to the project

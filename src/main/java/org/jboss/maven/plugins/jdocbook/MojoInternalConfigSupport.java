@@ -117,7 +117,7 @@ public abstract class MojoInternalConfigSupport extends AbstractMojo {
     protected ArtifactCollector artifactCollector;
 
     /**
-     * INTERNAL : used to get reference to environemtn Archiver/UnArchiver.
+     * INTERNAL : used to get reference to environment Archiver/UnArchiver.
      *
      * @parameter expression="${component.org.codehaus.plexus.archiver.manager.ArchiverManager}"
      * @required
