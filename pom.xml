@@ -190,7 +190,7 @@
     <dependency>
       <groupId>org.jboss.jdocbook</groupId>
       <artifactId>jdocbook-core</artifactId>
-      <version>1.0.7</version>
+      <version>1.1.1</version>
       <!--
         TODO Workaround for https://github.com/pressgang/jdocbook-core/issues/13
         See also hack in org.jboss.maven.plugins.jdocbook.AbstractDocBookMojo.resolveArtifact
