@@ -386,7 +386,7 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
         // See also TODO in pom.xml
         if (artifact.getType().equals("jar")
                 && (artifact.getGroupId().equals("net.sf.docbook") && (artifact.getArtifactId().equals("docbook-xml")
-                && artifact.getVersion().equals("5.0"))
+                && artifact.getVersion().equals("5.0-all"))
                 || (artifact.getGroupId().equals("net.sf.docbook") && artifact.getArtifactId().equals("docbook-xsl")
                 && artifact.getVersion().equals("1.76.1")))) {
             return;
