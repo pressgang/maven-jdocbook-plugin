@@ -130,7 +130,7 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 	protected Format[] formats;
 
 	/**
-	 * Whether or not to perform the attching of the format
+	 * Whether or not to perform the attaching of the format
 	 * outputs as classified attachments.
 	 *
      * @parameter
@@ -630,7 +630,7 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 					urls.add( artifact.getFile().toURI().toURL() );
 				}
 				catch ( MalformedURLException e ) {
-					getLog().warn( "Uanble to retrieve artifact url [" + artifact.getId() + "]" );
+					getLog().warn( "Unable to retrieve artifact url [" + artifact.getId() + "]" );
 				}
 			}
 		}
@@ -643,7 +643,7 @@ public abstract class AbstractDocBookMojo extends MojoInternalConfigSupport impl
 						urls.add( artifact.getFile().toURI().toURL() );
 					}
 					catch ( MalformedURLException e ) {
-						getLog().warn( "Uanble to retrieve artifact url [" + artifact.getId() + "]" );
+						getLog().warn( "Unable to retrieve artifact url [" + artifact.getId() + "]" );
 					}
 				}
 			}
