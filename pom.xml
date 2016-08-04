@@ -216,15 +216,8 @@
       <groupId>net.sf.docbook</groupId>
       <artifactId>docbook-xsl</artifactId>
       <type>pom</type>
-      <version>1.76.1</version>
+      <version>1.79.1</version>
     </dependency>
-
-    <!--<dependency>-->
-      <!--<groupId>net.sf.docbook</groupId>-->
-      <!--<artifactId>docbook</artifactId>-->
-      <!--&lt;!&ndash; This is the version used, unless user project imports one... &ndash;&gt;-->
-      <!--<version>1.74.0</version>-->
-    <!--</dependency>-->
 
     <dependency>
       <groupId>org.jboss.maven.util</groupId>
