@@ -1,0 +1,18 @@
+= maven-jdocbook-plugin
+
+Legacy. Consider migrating to the https://github.com/asciidoctor/asciidoctor-maven-plugin[asciidoctor-maven-plugin].
+
+== Goals Overview
+
+The jDocBook Plugin defines a dedicated project packaging ("jdocbook").
+In part, this packaging is used to redefine a suitable set of lifecycle phases pertinent to performing DocBook transformations. Below are the defined lifecycle phases, with the goals attached to them:
+
+- process-resources 	binds the jdocbook:resources goal which "stages" the resources need for the XSLT transformations such as fonts, images and css.
+- compile 	binds the jdocbook:generate goal which performs the actual XSLT transformations.
+- package 	binds the jdocbook:bundle goal which takes all the output formats, archives them as WARs and attaches the WARs to the project with the format name as the artifact classifier.
+- install 	binds the standard install goal.
+- deploy 	binds the standard deploy goal.
+
+== Usage
+
+Detailed usage instructions for the jDocBook Plugin can be found http://www.jboss.org/maven-jdocbook-plugin/usage.html[here].
