@@ -119,7 +119,7 @@
   </pluginRepositories>
 
   <properties>
-    <maven.version>3.0.3</maven.version>
+    <maven.version>3.8.1</maven.version>
     <batikVersion>1.6</batikVersion>
   </properties>
 
